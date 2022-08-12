@@ -1,6 +1,6 @@
 
 // https://www.dofbot.com/post/arduino-based-4dof-robotic-arm-control
-#include <Servo.h>
+#include <ESP32Servo.h>
 
 
 #define BASE_ANGLE 90
@@ -90,6 +90,8 @@ void loop()
           }
       
       }
+
+      
       // A2 needs a limited range+oppiste direction
      else if (i==2){
            if (handlesvalue[i]>(base_handlesvalue[i]+MARGIN)){
@@ -102,6 +104,8 @@ void loop()
             if (servos[i].read()>177) new_angle=177;
 
             servos[i].write(new_angle);      
+            // A1 moves as a derviative of A2
+            servos[1].write(servos[1].read()+(new_angle/2))
           }
       
       }
